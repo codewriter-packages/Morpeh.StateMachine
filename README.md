@@ -7,7 +7,9 @@ _State Machine for Morpeh ECS_
 using System;
 using Morpeh;
 
-// === Components ===
+// ==========================
+// === Declare components ===
+// ==========================
 
 [Serializable]
 public struct UnitComponent : IComponent { }
@@ -28,7 +30,9 @@ public static class UnitFsmStates {
     public struct FollowTarget : IComponent { public Entity target; }
 }
 
-// === StateMachine System ===
+// ============================
+// === Declare StateMachine ===
+// ============================
 
 public class UniBehaviourSystem : UpdateSystem {
     private Fsm fsm;
@@ -52,7 +56,9 @@ public class UniBehaviourSystem : UpdateSystem {
     }
 }
 
-// === State Logic Systems ===
+// ===============================================
+// === Write systems with logic for each state ===
+// ===============================================
 
 public class UnitIdleSystem : UpdateSystem {
     private Filter unitsFilter;
@@ -87,6 +93,20 @@ public class UnitFollowTargetSystem : UpdateSystem {
                 entity.AddComponent<UnitFsmEvents.TargetLost>();
             }
         }
+    }
+}
+
+// ======================================
+// === Create Unit with initial state ===
+// ======================================
+
+public class UnitSpawnSystem : Initializer
+{
+    public override void OnAwake()
+    {
+        var entity = World.CreateEntity();
+        entity.AddComponent<UnitComponent>();
+        entity.AddComponent<UnitFsmStates.Idle>();
     }
 }
 ```
