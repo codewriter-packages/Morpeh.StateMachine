@@ -1,3 +1,5 @@
+using System;
+
 namespace Morpeh
 {
     internal sealed class FsmSimpleTransitionRunner<TState, TEvent, TNextState> : FsmRunnerBase
@@ -6,14 +8,16 @@ namespace Morpeh
         where TNextState : struct, IComponent
     {
         private readonly FsmTransition<TEvent, TNextState> _transition;
+        private readonly Func<Entity, bool> _when;
         private readonly ComponentsCache<TState> _stateCache;
         private readonly ComponentsCache<TEvent> _eventCache;
         private readonly ComponentsCache<TNextState> _nextStateCache;
         private readonly Filter _transitionFilter;
 
-        public FsmSimpleTransitionRunner(Fsm fsm, FsmTransition<TEvent, TNextState> transition)
+        public FsmSimpleTransitionRunner(Fsm fsm, FsmTransition<TEvent, TNextState> transition, Func<Entity, bool> when = null)
         {
             _transition = transition;
+            _when = when;
             _stateCache = fsm.World.GetCache<TState>();
             _eventCache = fsm.World.GetCache<TEvent>();
             _nextStateCache = fsm.World.GetCache<TNextState>();
@@ -24,6 +28,11 @@ namespace Morpeh
         {
             foreach (var entity in _transitionFilter)
             {
+                if (_when != null && !_when.Invoke(entity))
+                {
+                    continue;
+                }
+
                 ref var evt = ref _eventCache.GetComponent(entity);
 
                 var nextState = _transition.Invoke(ref evt);
