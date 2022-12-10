@@ -1,3 +1,11 @@
+## :warning:  <b>REPO ARCHIVED</b> :warning:
+
+Problems with this implementation:
+- no way to check the current state of entity
+- unreliable state switching mechanism 
+
+<hr/>
+
 # Morpeh.StateMachine [![Github license](https://img.shields.io/github/license/codewriter-packages/Morpeh.StateMachine.svg?style=flat-square)](#) [![Unity 2020.1](https://img.shields.io/badge/Unity-2020.1+-2296F3.svg?style=flat-square)](#) ![GitHub package.json version](https://img.shields.io/github/package-json/v/codewriter-packages/Morpeh.StateMachine?style=flat-square)
 _State Machine for Morpeh ECS_
 
@@ -110,12 +118,6 @@ public class UnitSpawnSystem : Initializer
     }
 }
 ```
-
-## How to Install
-Minimal Unity Version is 2020.1.
-
-Library distributed as git package ([How to install package from git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html))
-<br>Git URL: `https://github.com/codewriter-packages/Morpeh.StateMachine.git`
 
 ## License
 
